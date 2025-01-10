@@ -1,4 +1,5 @@
 import scrapy
+from amazon_scraper.items import AmazonSingleItem
 
 
 class SingleItemSpiderSpider(scrapy.Spider):
@@ -7,6 +8,7 @@ class SingleItemSpiderSpider(scrapy.Spider):
     start_urls = ["https://www.amazon.com/JBL-Ultra-Portable-Waterproof-Dustproof-Built/dp/B0CTNWBT1Z/"]
 
     def parse(self, response):
+        product = AmazonSingleItem()
         product_name = response.css('span#productTitle::text').get().strip()
         price = response.css('.aok-offscreen::text').get().strip()
         images = response.css('#altImages img::attr(src)').getall()
@@ -27,11 +29,9 @@ class SingleItemSpiderSpider(scrapy.Spider):
 
             reviews_list.append(review_dict)
 
-
-        yield {
-            'Product Name' : product_name,
-            'Price' : price,
-            'Images' : images,
-            'Description' : description,
-            'Reviews' : reviews_list,
-        }
+        product['name'] = product_name
+        product['price'] = price
+        product['images'] = images
+        product['description'] = description
+        product['reviews'] = reviews_list
+        yield product
