@@ -13,3 +13,8 @@ class AmazonSingleItem(scrapy.Item):
     images = Field()#change this is a list
     description = Field()
     reviews = Field()
+
+class AmazonSearchResultItem(scrapy.Item):
+    product_name = Field()
+    rating = Field()
+    price = Field()
