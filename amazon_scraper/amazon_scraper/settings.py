@@ -90,3 +90,25 @@ ROBOTSTXT_OBEY = True
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+## Custom project settings
+
+# Use a random user agent for each request
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+    'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401,
+}
+
+
+
+# Auto-export results in csv and json
+FEEDS = {
+    'output.csv' : {'format' : 'csv'},
+    'output.json' : {'format' : 'json'},
+}
+
+
+# Be polite
+DOWNLOAD_DELAY = 2
