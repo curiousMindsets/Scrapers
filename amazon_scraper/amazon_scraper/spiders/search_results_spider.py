@@ -2,9 +2,20 @@ import scrapy
 from amazon_scraper.items import AmazonSearchResultItem
 
 class SearchResultsSpiderSpider(scrapy.Spider):
+    def __init__(self, search_term="Dog toy", *args, **kwargs):
+        self.search_term = search_term
+        super(SearchResultsSpiderSpider,self).__init__(*args, **kwargs)
+
     name = "search_results_spider"
+    # Check for user-defined search term
+    
+
     allowed_domains = ["amazon.com"]
-    start_urls = ["https://www.amazon.com/s?k=bluetooth+speaker"]
+#    start_urls = [f"https://www.amazon.com/s?k={self.search_term}"]
+
+    def start_requests(self):
+        search_url =f"https://www.amazon.com/s?k={self.search_term}"
+        yield scrapy.Request(search_url, self.parse)
 
     def parse(self, response):
         single_search_result = AmazonSearchResultItem()
